@@ -1,6 +1,6 @@
 import discord
 import diceRoll
-
+import ping
 
 commandsList = {}
 
@@ -28,3 +28,4 @@ class Commands:
 commands = Commands()
 
 commands.addCommand('roll', diceRoll.rollDice)
+commands.addCommand('ping', ping.ping)

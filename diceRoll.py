@@ -4,41 +4,39 @@ random.seed()
 
 
 async def rollDice(message, args):
-    if args[0][0] == 'd':
-        args[0] = '1' + args[0]
-    if args[0][1] != 'd':
-        await message.channel.send('No letter \'d\'!')
-        return None
-    
-    diceInfo = []
-    for i in range(len(args[0])):
-        diceInfo.append(args[0][i].split('d'))
-    
-    try:
-        numDice = int(diceInfo[0][0])
-    except ValueError:
-        await message.channel.send('{} is not a valid argument!'
-                                   .format(diceInfo[0]))
+    diceinfo = args[0]
+    if 'd' not in diceinfo:
+        await message.channel.send('Incorrect formatting!')
         return None
 
-    sides = diceInfo[2]
+    diceinfo = diceinfo.split('d')
+
+
+    try:
+        if diceinfo[0] == '':
+            diceinfo[0] = '1'
+        numDice = int(diceinfo[0])
+        numSides = int(diceinfo[1])
+    except ValueError:
+        await message.channel.send('Incorrect formatting!')
+        return None
 
     add = 0
-    output = []
+
+    randNum = random.randrange(numSides) + 1
+    rollinfo = []
     for i in range(numDice):
-        output.append(random.randint(1, int(sides[0])))
-        add += output[i]
+        num = random.randrange(numSides) + 1
+        rollinfo.append(num)
+        add += num
 
     if len(args) > 1:
         for i in range(1, len(args)):
-            output.append(args[i])
             try:
                 add += int(args[i])
+                rollinfo.append(args[i])
             except ValueError:
-                await message.channel.send('{} is not a valid argument!'
-                                           .format(args[i]))
+                await message.channel.send('Incorrect formatting!')
                 return None
 
-    await message.channel.send('{0} = {1}'.format(output, add))
-
-    return None
+    await message.channel.send('{} = {}'.format(rollinfo, add))
