@@ -1,6 +1,7 @@
 import discord
 import diceRoll
 import ping
+import say
 
 commandsList = {}
 
@@ -24,8 +25,8 @@ class Commands:
         commandsList[command] = func
         return
 
-
 commands = Commands()
 
 commands.addCommand('roll', diceRoll.rollDice)
 commands.addCommand('ping', ping.ping)
+commands.addCommand('say', say.say)
